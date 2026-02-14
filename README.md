@@ -2,6 +2,8 @@
 
 This repository implements **Persistent Nonnegative Matrix Factorization (pNMF)** for multi-scale low-rank embeddings. The project includes experiments on both simulation and single-cell RNA-seq datasets.
 
+<img src="results/3D_concentric_circles/animation_3D_concentric_circles_pNMF.gif">
+
 ---
 
 ## Installation and Requirements
