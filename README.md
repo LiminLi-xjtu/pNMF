@@ -1,44 +1,34 @@
-# Persistent Non-negative Matrix Factorization (pNMF)
+# Persistent Nonnegative Matrix Factorization via Multi-Scale Graph Regularization
 
 This repository implements **Persistent Non-negative Matrix Factorization (pNMF)** for multi-scale data embedding and clustering. The project includes experiments on both simulation and single-cell RNA-seq datasets.
 
 ---
 
-## Folder Structure
+## Installation and Requirements
 
-```
-pnmf-master/
-│
-├─ datasets/                  # Input datasets
-│   ├─ Simulation/             # Synthetic datasets
-│   ├─ scRNA-seq/              # Single-cell datasets (e.g., GSE75748time, Dendritic_batch1)
-│
-├─ results/                    # Results and visualizations
-│   ├─ {dataset}/              # Dataset-specific outputs
-│
-├─ multi_scale_visualization.py    # Visualize embeddings across scales (simulation)
-├─ multi_scale_clustering.py       # Compute multi-scale clustering (scRNA-seq)
-├─ clustering_metrics.py           # ARI, NMI, Purity, ACC calculation
-├─ sequential_alternating_optimization.py  # Optimization routine
-├─ pnmf.py                        # pNMF model
-├─ utils.py                        # Helper functions
-├─ load_datasets.py                # Load datasets
-├─ initialization.py               # Initialize W, H, and graph matrices
-├─ run_main.py                     # Main script to run pNMF
-└─ README.md
+To run this project, ensure you have Python 3.11.7 and install the following packages:
+
+- **numpy**: 1.26.3
+- **pandas**: 2.1.4
+- **scikit-learn**: 1.2.2
+- **scipy**: 1.13.1
+- **matplotlib**: 3.10.1
+
+You can install the required packages using `pip` from the `requirements.txt` file. Create a `requirements.txt` file with the following content:
+
+```plaintext
+numpy==1.26.3
+pandas==2.1.4
+scikit-learn==1.2.2
+scipy==1.13.1
+matplotlib==3.10.1
 ```
 
----
-
-## Installation
-
-1. Install Python 3.11+ and required libraries:
+Then, install the packages:
 
 ```bash
-pip install numpy pandas scipy scikit-learn matplotlib umap-learn
+pip install -r requirements.txt
 ```
-
-2. Clone or download this repository.
 
 ---
 
@@ -64,35 +54,26 @@ python run_main.py --data 3D_concentric_circles --l1 100 --l2 100 --l3 1
 
 ---
 
-### 2. Multi-scale Embedding Visualization (Simulation)
+### 2. Run baselines on a single-cell dataset (e.g., `GSE75748time`, `Dendritic_batch1`)
+
+```bash
+python run_baselines.py --data GSE75748time
+```
+
+---
+
+### 3. Multi-scale Embedding Visualization (Simulation)
 
 ```bash
 python multi_scale_visualization.py
 ```
 
-- Loads embeddings saved by `run_main.py`.
-- Generates PDF and GIF visualizations for each scale.
-- Colors are consistent across scales.
-
 ---
 
-### 3. Multi-scale Clustering (Single-cell data)
+### 4. Multi-scale Clustering (Single-cell data)
 
 ```bash
 python multi_scale_clustering.py
 ```
 
-- Computes **ARI, NMI, Purity, and Accuracy** at each scale.
-- Applied to **single-cell datasets**:
-  - `GSE75748time`
-  - `Dendritic_batch1`
-- Uses **l1 = l2 = l3 = 1** by default for all single-cell experiments.
-- Generates plots showing score progression across scales and identifies the best scale.
-
 ---
-
-## Citation
-
-If you use this code in your work, please cite our paper:  
-[Your paper reference here]
-
