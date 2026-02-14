@@ -1,12 +1,12 @@
 # Persistent Nonnegative Matrix Factorization via Multi-Scale Graph Regularization
 
-This repository implements **Persistent Non-negative Matrix Factorization (pNMF)** for multi-scale data embedding and clustering. The project includes experiments on both simulation and single-cell RNA-seq datasets.
+This repository implements **Persistent Nonnegative Matrix Factorization (pNMF)** for multi-scale low-rank embeddings. The project includes experiments on both simulation and single-cell RNA-seq datasets.
 
 ---
 
 ## Installation and Requirements
 
-To run this project, ensure you have Python 3.11.7 and install the following packages:
+To run this project, ensure you have **Python 3.11.7** and install the following packages:
 
 - **numpy**: 1.26.3
 - **pandas**: 2.1.4
@@ -45,7 +45,12 @@ python run_main.py --data 3D_concentric_circles --l1 100 --l2 100 --l3 1
 
 **Notes**:
 
-- For **simulation datasets** (e.g., `3D_concentric_circles`), default l1/l2/l3 can be tuned.
+- For **simulation datasets** (e.g., `3D_concentric_circles`), use:
+
+```bash
+--l1 100 --l2 100 --l3 1
+```
+
 - For **single-cell datasets** (e.g., `GSE75748time`, `Dendritic_batch1`), use:
 
 ```bash
