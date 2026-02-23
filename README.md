@@ -83,7 +83,7 @@ python multi_scale_visualization.py
 ### 4. Multi-scale Clustering (Single-cell datasets)
 
 ``` bash
-python multi_scale_clustering.py
+python multi_scale_clustering.py --data Dendritic_batch1
 ```
 
 ------------------------------------------------------------------------
