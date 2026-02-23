@@ -1,3 +1,4 @@
+import argparse
 import numpy as np
 import scipy.io
 import matplotlib.pyplot as plt
@@ -10,7 +11,10 @@ from model.clustering_metrics import compute_clustering_score
 # -----------------------------
 # Configuration
 # -----------------------------
-dataset = 'Dendritic_batch1' 
+parser = argparse.ArgumentParser(description='Run Multi-scale Clustering (Single-cell datasets)')
+parser.add_argument('--data', type=str, default='Dendritic_batch1')
+
+args = parser.parse_args()
 
 # Define colors for different methods
 method_colors = {
@@ -27,12 +31,12 @@ metrics = ['ARI', 'NMI', 'Purity', 'Accuracy']
 # =====================================================
 # Load dataset
 # =====================================================
-X, y = load_datasets(dataset)
+X, y = load_datasets(args.data)
 
 # =====================================================
 # Load pNMF multi-scale embeddings
 # =====================================================
-H_result = scipy.io.loadmat(f'results/{dataset}/pNMF.mat')
+H_result = scipy.io.loadmat(f'results/{args.data}/pNMF.mat')
 H_matrices = H_result['pNMF']
 
 timesteps = np.arange(1, len(H_matrices) + 1)
@@ -69,7 +73,7 @@ best_t = timesteps[best_idx]
 baseline_scores = {}
 
 for method in baseline_methods:
-    H_result = scipy.io.loadmat(f"results/{dataset}/{method}.mat")
+    H_result = scipy.io.loadmat(f"results/{args.data}/{method}.mat")
     H_matrix = H_result[method]
 
     ari, nmi, purity, acc = compute_clustering_score(
@@ -86,8 +90,8 @@ for method in baseline_methods:
 # =====================================================
 # Print report
 # =====================================================
-print(f"\nScores for {dataset}\n")
-print("Method\t\t\tARI\t\tNMI\t\tPurity\tAccuracy\tAverage")
+print(f"\nScores for {args.data}\n")
+print("Method\t\tARI\tNMI\tPurity\tAccuracy\tAverage")
 
 # pNMF at first scale
 avg_first = np.mean([
@@ -97,7 +101,7 @@ avg_first = np.mean([
     pnmf_scores["Accuracy"][0]
 ])
 
-print(f"pNMF(t=1)\t\t"
+print(f"pNMF(t=1)\t"
       f"{pnmf_scores['ARI'][0]:.3f}\t"
       f"{pnmf_scores['NMI'][0]:.3f}\t"
       f"{pnmf_scores['Purity'][0]:.3f}\t"
@@ -177,6 +181,6 @@ fig.legend(
 plt.tight_layout(rect=[0.02, 0.1, 0.99, 1])
 
 # Save figure
-os.makedirs(f'results/{dataset}', exist_ok=True)
-plt.savefig(f'results/{dataset}/{dataset}_multi_scale_clustering.pdf', dpi=300)
+os.makedirs(f'results/{args.data}', exist_ok=True)
+plt.savefig(f'results/{args.data}/{args.data}_multi_scale_clustering.pdf', dpi=300)
 plt.show()
