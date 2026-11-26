@@ -1,0 +1,84 @@
+{
+  "layout": "samples_by_features",
+  "data_index_col": 0,
+  "label_index_col": 0,
+  "label_column": "x",
+  "log_transform": "log10p1",
+  "column_l2_normalize": true,
+  "data_file": "expression.csv.gz",
+  "label_file": "labels.csv",
+  "pnmf": {
+    "rank": 20,
+    "dtype": "float64",
+    "alpha": 1.5,
+    "lambda1": 1.0,
+    "lambda2": 1.0,
+    "lambda3": 0.001,
+    "initialization": "nndsvda",
+    "svd_solver": "exact",
+    "graph_matmul_chunk": 0,
+    "max_outer_iterations": 20,
+    "stop_on_convergence": false,
+    "stopping_rule": "objective_and_kkt",
+    "inner_tolerance_initial": 0.01,
+    "inner_tolerance_decay": 0.5,
+    "inner_tolerance_minimum": 1e-06,
+    "outer_objective_tolerance": 1e-10,
+    "outer_kkt_tolerance": 1e-06,
+    "w_scale_chunk_size": 8,
+    "w_max_newton_iterations": 50,
+    "h_max_newton_iterations": 50,
+    "w_pcg_max_iterations": 40,
+    "h_pcg_max_iterations": 80,
+    "pcg_tolerance": 0.001,
+    "pcg_check_every": 2,
+    "active_tolerance": null,
+    "armijo_sigma": 0.0001,
+    "line_search_beta": 0.5,
+    "max_line_search_steps": 20,
+    "kkt_check_every": 1
+  },
+  "baselines": {
+    "NMF": {
+      "max_iter": 1000,
+      "tol": 0.001
+    },
+    "GNMF": {
+      "l": 0.1,
+      "n_neighbors": 15,
+      "max_iter": 1000,
+      "tol": 0.001
+    },
+    "TNMF": {
+      "l": 0.1,
+      "n_neighbors": 10,
+      "weights": [
+        1.0,
+        0.0,
+        1.0,
+        0.0,
+        1.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "max_iter": 1000,
+      "tol": 0.001
+    },
+    "kTNMF": {
+      "l": 1.0,
+      "weights": [
+        1.0,
+        0.0,
+        1.0,
+        0.0,
+        1.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "max_iter": 1000,
+      "tol": 0.001
+    }
+  }
+}
