@@ -1,5 +1,5 @@
 """
-This file contains components are inspired by the implementation of
+This module includes components inspired by the implementation of
 
 Hozumi, Y., and Wei, G.-W.
 Analyzing single cell RNA sequencing with topological nonnegative matrix factorization,
@@ -45,9 +45,14 @@ class UnionFind:
         int
             Root of the vertex.
         """
-        if self._parent[u] != u:
-            self._parent[u] = self.find(self._parent[u])
-        return self._parent[u]
+        root = u
+        while self._parent[root] != root:
+            root = int(self._parent[root])
+        while self._parent[u] != u:
+            parent = int(self._parent[u])
+            self._parent[u] = root
+            u = parent
+        return root
 
     def merge(self, u: int, v: int) -> None:
         """
@@ -82,8 +87,8 @@ class UnionFind:
 class Persistent_Homology_Calculation:
     """
     Compute 0-dimensional persistent homology pairs from a distance or
-    edge-weight matrix. Each pair represents the "birth" and "death"
-    of a connected component.
+    edge-weight matrix. Each returned pair contains the endpoints of a
+    Kruskal-accepted tree edge. Its weight is a finite H0 death value.
     """
 
     def __call__(self, matrix: np.ndarray) -> np.ndarray:
@@ -98,7 +103,7 @@ class Persistent_Homology_Calculation:
         Returns
         -------
         np.ndarray, shape (num_pairs, 2)
-            Array of persistence pairs (birth, death) as integer indices.
+            Vertex indices of the Kruskal-accepted edges that merge components.
         """
         n_vertices = matrix.shape[0]
         uf = UnionFind(n_vertices)
@@ -132,5 +137,10 @@ class Persistent_Homology_Calculation:
 
             # Store the persistence pair (sorted)
             persistence_pairs.append((min(u, v), max(u, v)))
+
+            # A connected graph on n vertices has exactly n - 1 successful
+            # merges. Remaining edges cannot add persistence pairs.
+            if len(persistence_pairs) == n_vertices - 1:
+                break
 
         return np.array(persistence_pairs, dtype=int)
